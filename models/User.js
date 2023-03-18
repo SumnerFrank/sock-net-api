@@ -6,6 +6,7 @@ const userSchema = new Schema(
         email: {},
         thoughts: {},
         friends: {}
-
     }
 )
+
+module.exports = User;
