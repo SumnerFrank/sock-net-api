@@ -10,6 +10,7 @@ const thoughtController = {
             return res.status(400).json(err);
         })
     },
+
     getOneThought(req, res) {
         Thought.fineOne({_id: params.thoughtId })
         .select()
@@ -23,5 +24,35 @@ const thoughtController = {
             console.log(err);
             return res.status(400).json(err);
         })
+    },
+
+    createThought({params, body }) {
+        Thought.create({
+            thoughtText: body.thoughtText,
+            username: body.username,
+            userId: params.userId
+        })
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No user with this ID' });
+                return;
+            }
+            return res.json(dbUserData);
+        })
+        .catch(err => res.json(err))
+    },
+
+    updateThought({ params, body}, res) {
+        Thought
+        .findOneAndUpdate({ _id: params.thoughtId }, 
+            body,
+            { new: true })
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No user with this ID' });
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.json(err));
     }
 }
