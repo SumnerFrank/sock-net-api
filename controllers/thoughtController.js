@@ -54,5 +54,19 @@ const thoughtController = {
                 res.json(dbUserData);
             })
             .catch(err => res.json(err));
+    },
+
+    deleteThought({}){
+
+    },
+
+    addReaction({}){
+
+    },
+
+    removeReaction({}){
+
     }
 }
+
+module.exports = thoughtController;
