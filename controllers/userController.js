@@ -54,8 +54,17 @@ const userController = {
         .catch(err => res.status(400).json(err));
     },
     
-    deleteUser({}){
-        
+    deleteUser({ params }, res) {
+        User.findOneAndDelete({ _id: params.id })
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No user with this ID' });;
+                return;
+            }
+            return res.json(dbUserData);
+        })
+        .then(data => res.json(data))
+        .catch(err => res.status(400).json(err));
     },
     
     addFriend({}){
@@ -67,4 +76,4 @@ const userController = {
     }
 }
 
-module.exports = UserController;
+module.exports = userController;
