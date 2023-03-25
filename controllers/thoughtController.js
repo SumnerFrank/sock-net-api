@@ -3,7 +3,7 @@ const { Thought, User } = require('../models');
 const thoughtController = {
     getThoughts(req, res) {
         Thought.find({})
-        .select()
+        .select('-__v')
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => {
             console.log(err);
@@ -13,7 +13,7 @@ const thoughtController = {
 
     getOneThought(req, res) {
         Thought.fineOne({_id: params.thoughtId })
-        .select()
+        .select('-__v')
         .then(dbThoughtData => {
             if (!dbThoughtData) {
                 res.status(404).json({ message: 'No thought from this ID'})
