@@ -11,7 +11,7 @@ const thoughtController = {
         })
     },
 
-    getOneThought(req, res) {
+    getOneThought({ params }, res) {
         Thought.fineOne({_id: params.thoughtId })
         .select('-__v')
         .then(dbThoughtData => {
@@ -26,11 +26,18 @@ const thoughtController = {
         })
     },
 
-    createThought({params, body }) {
+    createThought({ params, body }, res) {
         Thought.create({
             thoughtText: body.thoughtText,
             username: body.username,
             userId: params.userId
+        })
+        .then(({ _id }) => {
+            return User.findOneAndUpdate(
+                { _id: params.userId },
+                { $addToSet: { thoughts: _id } },
+                { new: true }
+            )
         })
         .then(dbUserData => {
             if (!dbUserData) {
