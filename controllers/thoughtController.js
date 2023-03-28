@@ -12,7 +12,7 @@ const thoughtController = {
     },
 
     getOneThought({ params }, res) {
-        Thought.fineOne({_id: params.thoughtId })
+        Thought.findOne({_id: params.thoughtId })
         .select('-__v')
         .then(dbThoughtData => {
             if (!dbThoughtData) {
